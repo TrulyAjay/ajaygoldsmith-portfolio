@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajay Goldsmith — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Noto+Serif+Devanagari:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f2ed;
+      --surface: #faf8f5;
+      --card: #ffffff;
+      --border: rgba(0,0,0,0.08);
+      --border-strong: rgba(0,0,0,0.12);
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --subtle: #9a9a9a;
+      --glow-pink: #dd7bbb;
+      --glow-gold: #d79f1e;
+      --glow-green: #5a922c;
+      --glow-blue: #4c7894;
+      --radius: 1.25rem;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* ─── GLOW ENGINE ─── */
+    @property --glow-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+    .glow-card {
+      position: relative;
+      border-radius: var(--radius);
+      border: 0.75px solid var(--border-strong);
+      padding: 3px;
+      background: transparent;
+      transition: transform 0.3s ease;
+    }
+    .glow-card:hover { transform: translateY(-2px); }
+    .glow-card::before {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: inherit;
+      padding: 1.5px;
+      background: conic-gradient(
+        from var(--glow-angle, 0deg) at 50% 50%,
+        var(--glow-pink), var(--glow-gold), var(--glow-green), var(--glow-blue), var(--glow-pink)
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .glow-card:hover::before { opacity: 1; animation: glowRotate 3s linear infinite; }
+    .glow-card.always-glow::before { opacity: 0.7; animation: glowRotate 4s linear infinite; }
+    @keyframes glowRotate { from { --glow-angle: 0deg; } to { --glow-angle: 360deg; } }
+
+    .glow-inner {
+      background: var(--card);
+      border-radius: calc(var(--radius) - 3px);
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .card-pad { padding: 1.75rem; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.4s;
+    }
+    nav.scrolled { background: rgba(245,242,237,0.88); backdrop-filter: blur(20px); border-bottom: 0.75px solid var(--border); }
+    .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.35rem; color: var(--text); text-decoration: none; }
+    .nav-logo em { font-style: italic; color: var(--muted); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-pill { background: var(--text); color: #fff; padding: 0.5rem 1.2rem; border-radius: 100px; font-size: 0.78rem; text-decoration: none; transition: opacity 0.2s; font-weight: 500; }
+    .nav-pill:hover { opacity: 0.75; }
+
+    /* ─── HERO ─── */
+    #hero { padding: 7.5rem 2rem 3rem; max-width: 1200px; margin: 0 auto; }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--card); border: 0.75px solid var(--border-strong);
+      border-radius: 100px; padding: 0.35rem 0.9rem;
+      font-size: 0.75rem; color: var(--muted); margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: livePulse 2s infinite; }
+    @keyframes livePulse { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)} 50%{box-shadow:0 0 0 5px rgba(34,197,94,0)} }
+    .hero-h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3.2rem, 7vw, 6.8rem);
+      font-weight: 400; line-height: 1.04; letter-spacing: -0.03em;
+      margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .hero-h1 em { font-style: italic; color: var(--muted); }
+    .hero-sub { max-width: 520px; font-size: 1rem; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.7s 0.3s forwards; }
+    .hero-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s 0.4s forwards; }
+    .btn-dark { display:inline-flex;align-items:center;gap:.5rem;background:var(--text);color:#fff;padding:.75rem 1.75rem;border-radius:100px;font-size:.85rem;font-weight:500;text-decoration:none;transition:opacity .2s;font-family:'DM Sans',sans-serif; }
+    .btn-dark:hover { opacity: 0.8; }
+    .btn-light { display:inline-flex;align-items:center;gap:.5rem;background:var(--card);color:var(--text);padding:.75rem 1.75rem;border-radius:100px;border:.75px solid var(--border-strong);font-size:.85rem;font-weight:500;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif; }
+    .btn-light:hover { background: #ece8e1; }
+
+    /* ─── TICKER ─── */
+    .ticker-wrap { border-top: .75px solid var(--border); border-bottom: .75px solid var(--border); overflow: hidden; padding: .85rem 0; background: var(--card); }
+    .ticker { display: flex; gap: 3rem; animation: tick 22s linear infinite; white-space: nowrap; }
+    .ticker-item { font-size: .75rem; color: var(--muted); flex-shrink: 0; display: flex; align-items: center; gap: .75rem; }
+    .ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--glow-pink); }
+    @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ─── BENTO ─── */
+    .bento-section { max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 1rem; }
+    .bento-label { font-size: .68rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 1rem; }
+    .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
+    .col-4 { grid-column: span 4; }
+    .col-5 { grid-column: span 5; }
+    .col-6 { grid-column: span 6; }
+    .col-7 { grid-column: span 7; }
+    .col-8 { grid-column: span 8; }
+    .col-12 { grid-column: span 12; }
+    .glow-card { min-height: 14rem; }
+    .glow-card.tall { min-height: 21rem; }
+    .glow-card.short { min-height: 9rem; }
+
+    /* ─── CARD COMPONENTS ─── */
+    .card-icon-chip { display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:var(--bg);border:.75px solid var(--border-strong);border-radius:.6rem;font-size:1.1rem;flex-shrink:0; }
+    .card-tag { font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--subtle);margin-bottom:.5rem; }
+    .card-title { font-family:'Instrument Serif',serif;font-size:1.65rem;font-weight:400;line-height:1.2;letter-spacing:-.02em;color:var(--text); }
+    .card-title.xl { font-size:clamp(1.8rem,2.8vw,2.6rem); }
+    .card-body { font-size:.85rem;color:var(--muted);line-height:1.65;margin-top:.6rem; }
+
+    .edu-badge { display:inline-flex;align-items:center;gap:.5rem;background:var(--bg);border:.75px solid var(--border);border-radius:100px;padding:.3rem .8rem;font-size:.72rem;color:var(--muted);margin-top:1rem; }
+    .edu-badge-dot { width:5px;height:5px;border-radius:50%;background:var(--glow-gold); }
+
+    .stats-row { display:flex;gap:.6rem;flex-wrap:wrap; }
+    .stat-chip { flex:1;min-width:80px;background:var(--bg);border:.75px solid var(--border);border-radius:.75rem;padding:.85rem;text-align:center; }
+    .stat-num { font-family:'Instrument Serif',serif;font-size:1.8rem;font-weight:400;line-height:1;color:var(--text); }
+    .stat-label { font-size:.62rem;color:var(--subtle);margin-top:.2rem;font-weight:500; }
+
+    /* Dark cards */
+    .dark-card { background: linear-gradient(135deg,#1a1a1a,#2a2018) !important; }
+    .dark-card-navy { background: linear-gradient(135deg,#0f172a,#1e293b) !important; }
+    .shayri-quote { font-family:'Instrument Serif',serif;font-size:5rem;line-height:.7;color:rgba(255,255,255,.08);margin-bottom:.4rem; }
+    .shayri-hi { font-family:'Noto Serif Devanagari',serif;font-size:1.05rem;line-height:2;color:rgba(255,255,255,.88);font-weight:300; }
+    .shayri-en { font-family:'Instrument Serif',serif;font-style:italic;font-size:.9rem;line-height:1.7;color:rgba(255,255,255,.4);margin-top:.8rem; }
+    .shayri-attr { font-size:.62rem;color:rgba(255,255,255,.25);margin-top:1rem;letter-spacing:.1em; }
+
+    /* Skill pills */
+    .skill-pill-row { display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem; }
+    .skill-pill { background:var(--bg);border:.75px solid var(--border);border-radius:100px;padding:.28rem .7rem;font-size:.72rem;color:var(--muted);transition:all .2s; }
+    .skill-pill:hover { border-color:var(--glow-pink);color:var(--text);background:#fff; }
+
+    /* Stack grid */
+    .stack-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-top:1rem; }
+    .stack-item { display:flex;flex-direction:column;align-items:center;gap:.35rem;padding:.55rem .3rem;background:var(--bg);border:.75px solid var(--border);border-radius:.7rem;transition:all .2s; }
+    .stack-item:hover { border-color:var(--glow-blue);background:#fff; }
+    .stack-emoji { font-size:1.15rem; }
+    .stack-name { font-size:.58rem;color:var(--muted);text-align:center;font-weight:500; }
+
+    /* Project cards */
+    .project-num-bg { font-family:'Instrument Serif',serif;font-size:6rem;font-weight:400;color:var(--bg);line-height:1;position:absolute;bottom:-1rem;right:1rem;pointer-events:none;user-select:none; }
+    .project-tags-row { display:flex;flex-wrap:wrap;gap:.35rem; }
+    .project-tag-chip { background:var(--bg);border:.75px solid var(--border);border-radius:100px;padding:.2rem .6rem;font-size:.65rem;color:var(--muted); }
+    .project-arrow-btn { display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--text);border-radius:50%;color:#fff;font-size:.75rem;text-decoration:none;transition:opacity .2s;flex-shrink:0; }
+    .project-arrow-btn:hover { opacity:.7; }
+
+    /* Leadership list */
+    .leader-list { list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-top:1rem; }
+    .leader-item { display:flex;align-items:center;gap:.75rem;padding:.7rem;background:rgba(255,255,255,.04);border:.75px solid rgba(255,255,255,.08);border-radius:.7rem; }
+    .leader-name { font-size:.82rem;font-weight:500;color:rgba(255,255,255,.85); }
+    .leader-role { font-size:.68rem;color:rgba(255,255,255,.38); }
+
+    /* Poem cards */
+    .poem-num-lg { font-family:'Instrument Serif',serif;font-size:3rem;color:var(--border-strong);line-height:1;margin-bottom:.5rem; }
+    .poem-hi { font-family:'Noto Serif Devanagari',serif;font-size:.92rem;line-height:2;color:var(--text);font-weight:300; }
+    .poem-en { font-family:'Instrument Serif',serif;font-style:italic;font-size:.83rem;color:var(--muted);line-height:1.6;margin-top:.5rem; }
+
+    /* Contact */
+    .contact-link-item { display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:.75px solid rgba(255,255,255,.08);text-decoration:none;color:rgba(255,255,255,.65);font-size:.82rem;transition:color .2s; }
+    .contact-link-item:hover { color:#fff; }
+    .contact-link-item:last-child { border-bottom:none; }
+
+    /* Form */
+    .form-label-s { font-size:.68rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.3rem;letter-spacing:.05em; }
+    .form-input-s { width:100%;background:var(--bg);border:.75px solid var(--border-strong);border-radius:.6rem;padding:.6rem .85rem;font-size:.82rem;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .2s;margin-bottom:.65rem; }
+    .form-input-s:focus { border-color:var(--glow-blue); }
+    textarea.form-input-s { resize:none;height:80px; }
+    .form-btn { width:100%;background:var(--text);color:#fff;border:none;border-radius:.6rem;padding:.75rem;font-size:.83rem;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:opacity .2s; }
+    .form-btn:hover { opacity:.8; }
+
+    /* Animations */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1;transform:none; }
+    .rd1{transition-delay:.06s} .rd2{transition-delay:.12s} .rd3{transition-delay:.18s} .rd4{transition-delay:.24s} .rd5{transition-delay:.3s}
+
+    /* Footer */
+    footer { max-width:1200px;margin:0 auto;padding:2.5rem 2rem;border-top:.75px solid var(--border);display:flex;align-items:center;justify-content:space-between;margin-top:1rem; }
+    .footer-logo { font-family:'Instrument Serif',serif;font-size:1.1rem;color:var(--text); }
+    .footer-logo em { font-style:italic;color:var(--muted); }
+    .footer-copy { font-size:.73rem;color:var(--subtle); }
+
+    /* Responsive */
+    @media(max-width:900px){
+      nav{padding:.9rem 1.25rem;} .nav-links{display:none;}
+      #hero{padding:5.5rem 1.25rem 2rem;} .hero-h1{font-size:2.9rem;}
+      .bento-section{padding:1.25rem 1.25rem .75rem;}
+      .col-4,.col-5,.col-6,.col-7,.col-8{grid-column:span 12;}
+      footer{flex-direction:column;gap:1rem;padding:2rem 1.25rem;}
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">Ajay <em>Goldsmith</em></a>
+    <ul class="nav-links">
+      <li><a href="#about-bento">About</a></li>
+      <li><a href="#skills-bento">Skills</a></li>
+      <li><a href="#projects-bento">Projects</a></li>
+      <li><a href="#poetry-bento">Poetry</a></li>
+      <li><a href="#contact-bento">Contact</a></li>
+    </ul>
+    <a href="mailto:imdajayg@gmail.com" class="nav-pill">Get in Touch ↗</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-pill"><span class="live-dot"></span>Open to internships &amp; collaborations · 2026</div>
+    <h1 class="hero-h1">Frontend Dev.<br/>ECE Student.<br/><em>Poet at heart.</em></h1>
+    <p class="hero-sub">B.Tech in Electronics &amp; Communication Engineering at Guru Ghasidas Vishwavidyalaya, Bilaspur. I build interfaces, deploy them, lead teams — and write shayris under open skies.</p>
+    <div class="hero-btns">
+      <a href="#projects-bento" class="btn-dark">See My Work ↓</a>
+      <a href="#contact-bento" class="btn-light">Say Hello →</a>
+    </div>
+  </section>
+
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span class="ticker-item"><span class="ticker-dot"></span>Frontend Development</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>ECE Engineering</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Hosting &amp; Deployment</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Leadership</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Nature &amp; Poetry</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>GGV Bilaspur</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Shayar · शायर</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Frontend Development</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>ECE Engineering</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Hosting &amp; Deployment</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Leadership</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Nature &amp; Poetry</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>GGV Bilaspur</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Shayar · शायर</span>
+    </div>
+  </div>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="bento-section" id="about-bento" style="padding-top:2.5rem;">
+    <div class="bento-label">About</div>
+    <div class="bento-grid">
+
+      <div class="glow-card col-7 tall reveal">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div>
+              <div class="card-icon-chip" style="margin-bottom:1.25rem;">🎓</div>
+              <div class="card-tag">Background</div>
+              <div class="card-title xl">Where circuits meet<br/>creativity</div>
+              <div class="card-body">I'm a Bachelor of Technology (B.Tech) student in Electronics &amp; Communication Engineering at Guru Ghasidas Vishwavidyalaya — a Central University in Bilaspur, Chhattisgarh.<br/><br/>By discipline I explore the physics of signals; by passion I build interfaces that connect humans to technology. I design, code, host, and deploy — from concept to live URL. I believe great leaders listen first, and great engineers always ask <em>why</em> before <em>how</em>.</div>
+            </div>
+            <div><div class="edu-badge"><span class="edu-badge-dot"></span>B.Tech ECE · GGV Bilaspur · 2025–2029</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-5 reveal rd1">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div>
+              <div class="card-tag">At a glance</div>
+              <div class="card-title">Numbers<br/>that matter</div>
+            </div>
+            <div class="stats-row">
+              <div class="stat-chip"><div class="stat-num">3+</div><div class="stat-label">Projects Shipped</div></div>
+              <div class="stat-chip"><div class="stat-num">4</div><div class="stat-label">Leadership Roles</div></div>
+              <div class="stat-chip"><div class="stat-num">-</div><div class="stat-label">Poems Written</div></div>
+              <div class="stat-chip"><div class="stat-num">~ 1</div><div class="stat-label">Years of Dev</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card always-glow col-5 tall reveal rd2">
+        <div class="glow-inner dark-card">
+          <div class="card-pad">
+            <div>
+              <div class="shayri-quote">"</div>
+              <div class="shayri-hi">तुम्हारा आना तो ठीक था, पर जाना जरूरी है क्या?<br/>थोड़ा और बैठ जाओ साथ, वरना मुलाकात अधूरी है ना।<br/>और बैठा हूं कब से तुम्हारे हाथों को पकड़ कर मन में ये बात लिए,<br/>पहना दूं क्या तुम्हें, जेब में रखी जो मेरी चूड़ी है ना।।</div>
+              <div class="shayri-en">Your coming was a blessing, but must you really go?<br/>Stay a little longer, love — this meeting feels incomplete, you know.<br/>For I've been sitting here a while, holding your hands, a secret in my heart,<br/>Shall I slip upon your wrist, the bangle I've kept close — right from the start?</div>
+            </div>
+            <div class="shayri-attr">— Ajay Goldsmith</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-7 reveal rd3">
+        <div class="glow-inner" style="background:linear-gradient(150deg,#e8f5e9,#f1f8e9,#f9fbe7);">
+          <div class="card-pad" style="flex-direction:row;align-items:center;gap:1.5rem;">
+            <div style="font-size:4.5rem;flex-shrink:0;opacity:.55;">🌿</div>
+            <div>
+              <div class="card-tag" style="color:#5a7a3a;">Hobby &amp; Soul</div>
+              <div class="card-title xl" style="color:#2d4a1e;">Sitting in nature heals what code cannot.</div>
+              <div class="card-body" style="color:#4a6530;">Between debugging sessions and circuit diagrams, I find clarity under open skies watching sunset or just feeling the breeze. The rustle of leaves is the most beautiful signal — analog, uncompressed, and true.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ SKILLS ═══ -->
+  <section class="bento-section" id="skills-bento">
+    <div class="bento-label">Skills &amp; Stack</div>
+    <div class="bento-grid">
+
+      <div class="glow-card col-6 reveal">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div>
+              <div class="card-tag">Technology Stack</div>
+              <div class="card-title">Tools I build with</div>
+            </div>
+            <div class="stack-grid">
+              <div class="stack-item"><span class="stack-emoji">🌐</span><span class="stack-name">HTML5</span></div>
+              <div class="stack-item"><span class="stack-emoji">🎨</span><span class="stack-name">CSS3</span></div>
+              <div class="stack-item"><span class="stack-emoji">⚡</span><span class="stack-name">JavaScript</span></div>
+              <div class="stack-item"><span class="stack-emoji">⚛️</span><span class="stack-name">React</span></div>
+              <div class="stack-item"><span class="stack-emoji">🌊</span><span class="stack-name">Tailwind</span></div>
+              <div class="stack-item"><span class="stack-emoji">▲</span><span class="stack-name">Vercel</span></div>
+              <div class="stack-item"><span class="stack-emoji">🔷</span><span class="stack-name">Netlify</span></div>
+              <div class="stack-item"><span class="stack-emoji">🐙</span><span class="stack-name">GitHub</span></div>
+              <div class="stack-item"><span class="stack-emoji">🔌</span><span class="stack-name">Arduino</span></div>
+              <div class="stack-item"><span class="stack-emoji">🐍</span><span class="stack-name">Python</span></div>
+              <div class="stack-item"><span class="stack-emoji">📐</span><span class="stack-name">Figma</span></div>
+              <div class="stack-item"><span class="stack-emoji">🔥</span><span class="stack-name">Firebase</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-3 reveal rd1">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div>
+              <div class="card-icon-chip">💻</div>
+              <div class="card-title" style="font-size:1.2rem;margin-top:1rem;">Frontend</div>
+              <div class="skill-pill-row">
+                <span class="skill-pill">HTML · CSS</span>
+                <span class="skill-pill">JavaScript</span>
+                <span class="skill-pill">React.js</span>
+                <span class="skill-pill">Tailwind</span>
+                <span class="skill-pill">Responsive</span>
+                <span class="skill-pill">Animations</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-3 reveal rd2">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div>
+              <div class="card-icon-chip">🚀</div>
+              <div class="card-title" style="font-size:1.2rem;margin-top:1rem;">Deploy</div>
+              <div class="skill-pill-row">
+                <span class="skill-pill">Vercel</span>
+                <span class="skill-pill">Netlify</span>
+                <span class="skill-pill">GitHub Pages</span>
+                <span class="skill-pill">CI/CD</span>
+                <span class="skill-pill">Domains</span>
+                <span class="skill-pill">Git Flow</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-8 reveal rd3">
+        <div class="glow-inner" style="background:linear-gradient(120deg,#f0f4ff,#f8f5ff);">
+          <div class="card-pad" style="flex-direction:row;align-items:center;gap:2rem;">
+            <div style="flex:1;">
+              <div class="card-tag" style="color:#6366f1;">Core ECE</div>
+              <div class="card-title xl">Electronics &amp;<br/>Communication</div>
+              <div class="card-body">Signal processing, circuit design, embedded systems, analog &amp; digital electronics — applied with curiosity and connected to the web.</div>
+            </div>
+            <div style="font-size:5rem;opacity:.35;flex-shrink:0;">📡</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-4 reveal rd4">
+        <div class="glow-inner" style="background:linear-gradient(120deg,#fff8f0,#fff5f5);">
+          <div class="card-pad">
+            <div style="font-size:2.8rem;">🏆</div>
+            <div>
+              <div class="card-tag" style="color:#d97706;">Soft Skills</div>
+              <div class="card-title" style="font-size:1.2rem;">Leadership &amp; Communication</div>
+              <div class="card-body">Empathy and clarity are the best technical skills anyone can have.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ PROJECTS ═══ -->
+  <section class="bento-section" id="projects-bento">
+    <div class="bento-label">Selected Work</div>
+    <div class="bento-grid">
+
+      <div class="glow-card col-7 tall reveal" style="cursor:pointer;">
+        <div class="glow-inner" style="position:relative;overflow:hidden;">
+          <div class="card-pad">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div class="card-icon-chip">🖥️</div>
+                <a href="ajaygoldsmith.me" class="project-arrow-btn">↗</a>
+              </div>
+              <div class="card-tag" style="margin-top:1.25rem;">Project 001</div>
+              <div class="card-title xl">Personal Portfolio v1</div>
+              <div class="card-body">A fully responsive portfolio with scroll animations, dark mode, custom cursor, and live on Vercel. Zero frameworks — built from raw HTML, CSS &amp; JS.</div>
+            </div>
+            <div style="padding-top:1.25rem;"><div class="project-tags-row"><span class="project-tag-chip">HTML</span><span class="project-tag-chip">CSS</span><span class="project-tag-chip">JavaScript</span><span class="project-tag-chip">Vercel</span></div></div>
+          </div>
+          <div class="project-num-bg">01</div>
+        </div>
+      </div>
+
+      <div class="glow-card col-5 tall reveal rd1" style="cursor:pointer;">
+        <div class="glow-inner" style="background:linear-gradient(160deg,#0f0f23,#1a1a3e);position:relative;overflow:hidden;">
+          <div class="card-pad">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div class="card-icon-chip" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);">📡</div>
+                <a href="#" class="project-arrow-btn">↗</a>
+              </div>
+              <div class="card-tag" style="margin-top:1.25rem;color:rgba(255,255,255,.35);">Project 002</div>
+              <div class="card-title xl" style="color:#fff;">Signal Visualizer</div>
+              <div class="card-body" style="color:rgba(255,255,255,.42);">Web-based AM/FM signal visualization tool — ECE knowledge rendered beautifully via Canvas API.</div>
+            </div>
+            <div style="padding-top:1.25rem;"><div class="project-tags-row"><span class="project-tag-chip" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.45);">React</span><span class="project-tag-chip" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.45);">Canvas API</span><span class="project-tag-chip" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.45);">ECE</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-12 reveal rd2" style="cursor:pointer;min-height:11rem;">
+        <div class="glow-inner" style="background:linear-gradient(120deg,#f0fdf4,#ecfdf5);">
+          <div class="card-pad" style="flex-direction:row;align-items:center;gap:3rem;">
+            <div style="flex:2;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;">
+                <div class="card-tag" style="color:#16a34a;">Project 003 · Featured</div>
+                <a href="#" class="project-arrow-btn" style="background:#16a34a;">↗</a>
+              </div>
+              <div class="card-title xl">College Event Management Platform</div>
+              <div class="card-body" style="color:#4b7a55;">Built and deployed a full platform for our college tech fest — registrations, live schedules, leaderboards. Used by 200+ students.</div>
+            </div>
+            <div style="flex:1;">
+              <div class="project-tags-row" style="margin-bottom:.6rem;"><span class="project-tag-chip" style="background:#dcfce7;border-color:#bbf7d0;color:#166534;">React</span><span class="project-tag-chip" style="background:#dcfce7;border-color:#bbf7d0;color:#166534;">Tailwind</span><span class="project-tag-chip" style="background:#dcfce7;border-color:#bbf7d0;color:#166534;">Firebase</span><span class="project-tag-chip" style="background:#dcfce7;border-color:#bbf7d0;color:#166534;">Netlify</span></div>
+              <div style="font-size:.73rem;color:#4b7a55;">200+ users · Live during annual tech fest</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-4 reveal" style="cursor:pointer;">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div>
+              <div style="display:flex;justify-content:space-between;"><div class="card-icon-chip">📝</div><a href="#" class="project-arrow-btn" style="width:28px;height:28px;font-size:.65rem;">↗</a></div>
+              <div class="card-tag" style="margin-top:1rem;">Project 004</div>
+              <div class="card-title" style="font-size:1.1rem;">Dev Blog</div>
+              <div class="card-body" style="font-size:.78rem;">Static blog on GitHub Pages with CI/CD automation.</div>
+            </div>
+            <div style="padding-top:.75rem;"><div class="project-tags-row"><span class="project-tag-chip">HTML</span><span class="project-tag-chip">GitHub Pages</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-4 reveal rd1" style="cursor:pointer;">
+        <div class="glow-inner" style="background:linear-gradient(135deg,#fdf4ff,#fce7f3);">
+          <div class="card-pad">
+            <div>
+              <div style="display:flex;justify-content:space-between;"><div class="card-icon-chip">📖</div><a href="#" class="project-arrow-btn" style="width:28px;height:28px;font-size:.65rem;background:#be185d;">↗</a></div>
+              <div class="card-tag" style="margin-top:1rem;color:#be185d;">Project 005</div>
+              <div class="card-title" style="font-size:1.1rem;">Poetry Reader App</div>
+              <div class="card-body" style="font-size:.78rem;color:#7c3268;">Calm UI for reading Urdu &amp; Hindi poems, built with React.</div>
+            </div>
+            <div style="padding-top:.75rem;"><div class="project-tags-row"><span class="project-tag-chip" style="background:#fce7f3;border-color:#fbcfe8;color:#be185d;">React</span><span class="project-tag-chip" style="background:#fce7f3;border-color:#fbcfe8;color:#be185d;">Vercel</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-4 reveal rd2" style="cursor:pointer;">
+        <div class="glow-inner" style="background:linear-gradient(135deg,#fffbeb,#fff7ed);">
+          <div class="card-pad">
+            <div>
+              <div style="display:flex;justify-content:space-between;"><div class="card-icon-chip">🔌</div><a href="#" class="project-arrow-btn" style="width:28px;height:28px;font-size:.65rem;background:#d97706;">↗</a></div>
+              <div class="card-tag" style="margin-top:1rem;color:#d97706;">Project 006</div>
+              <div class="card-title" style="font-size:1.1rem;">IoT Dashboard UI</div>
+              <div class="card-body" style="font-size:.78rem;color:#92400e;">Real-time Arduino sensor data visualized in a clean web dashboard.</div>
+            </div>
+            <div style="padding-top:.75rem;"><div class="project-tags-row"><span class="project-tag-chip" style="background:#fef3c7;border-color:#fde68a;color:#b45309;">React</span><span class="project-tag-chip" style="background:#fef3c7;border-color:#fde68a;color:#b45309;">Arduino</span></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ LEADERSHIP ═══ -->
+  <section class="bento-section" id="leadership-bento">
+    <div class="bento-label">Leadership</div>
+    <div class="bento-grid">
+
+      <div class="glow-card col-5 tall reveal">
+        <div class="glow-inner dark-card-navy">
+          <div class="card-pad">
+            <div>
+              <div class="card-tag" style="color:rgba(255,255,255,.3);">Roles &amp; Impact</div>
+              <div class="card-title xl" style="color:#fff;">People I've<br/><em style="color:rgba(255,255,255,.38);">guided</em></div>
+            </div>
+            <ul class="leader-list">
+              <li class="leader-item"><span style="font-size:1.1rem;">⚡</span><div><div class="leader-name">Technical Club Lead</div><div class="leader-role">Core Committee · GGV</div></div></li>
+              <li class="leader-item"><span style="font-size:1.1rem;">🔬</span><div><div class="leader-name">Project Coordinator</div><div class="leader-role">ECE Department</div></div></li>
+              <li class="leader-item"><span style="font-size:1.1rem;">🌱</span><div><div class="leader-name">Peer Mentor</div><div class="leader-role">First-year Students</div></div></li>
+              <li class="leader-item"><span style="font-size:1.1rem;">🎙️</span><div><div class="leader-name">Event Host &amp; Speaker</div><div class="leader-role">Campus Events · GGV</div></div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-7 tall reveal rd1">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div class="card-icon-chip" style="margin-bottom:1.25rem;">🏅</div>
+            <div class="card-tag">Philosophy</div>
+            <div class="card-title xl">Empathy before<br/>authority.</div>
+            <div class="card-body">Leading a team of 15+ students for the annual tech fest taught me that the best technical skill is knowing how to listen. I've organized workshops, hackathons, mentored juniors in frontend development, and hosted campus events — occasionally reciting original poetry on stage too.<br/><br/>True leadership is quiet confidence — the kind that makes others feel capable, not small.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ POETRY ═══ -->
+  <section class="bento-section" id="poetry-bento">
+    <div class="bento-label">Poetry &amp; Shayri</div>
+    <div class="bento-grid">
+
+      <div class="glow-card col-4 reveal">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div class="poem-num-lg">01</div>
+            <div class="poem-hi">पत्थर भी राह बन जाते हैं,<br/>जब हौसला साथ हो।</div>
+            <div class="poem-en">Even stones become a path,<br/>when courage walks beside you.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-4 reveal rd1">
+        <div class="glow-inner" style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);">
+          <div class="card-pad">
+            <div class="poem-num-lg" style="color:#c4b5fd;">02</div>
+            <div class="poem-hi">नदी से सीखा मैंने बहना,<br/>रुकना नहीं है मेरी आदत।</div>
+            <div class="poem-en" style="color:#7c6fa0;">From the river I learned to flow —<br/>stopping was never my habit.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-4 reveal rd2">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div class="poem-num-lg">03</div>
+            <div class="poem-hi">खामोशी में भी एक राग है,<br/>जो सुनता है वो जानता है।</div>
+            <div class="poem-en">Even in silence there is a melody —<br/>only the one who listens, knows.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card always-glow col-12 reveal rd3" style="min-height:10rem;">
+        <div class="glow-inner dark-card">
+          <div class="card-pad" style="flex-direction:row;align-items:center;gap:3rem;">
+            <div style="font-size:4rem;flex-shrink:0;opacity:.5;">🖊️</div>
+            <div style="flex:1;">
+              <div class="card-tag" style="color:rgba(255,255,255,.28);">Original Shayri · Featured</div>
+              <div class="shayri-hi">टूटे तारों की रोशनी में, रास्ता बना लेता हूँ मैं।<br/>सर्किट हो या शब्दों का जाल, दोनों में खो जाता हूँ मैं।</div>
+            </div>
+            <div style="flex:1;border-left:.75px solid rgba(255,255,255,.08);padding-left:3rem;">
+              <div class="shayri-en" style="font-size:.98rem;">In the glow of broken stars, I carve my own way through.<br/>Be it circuits or a web of words — I lose myself in both, it's true.</div>
+              <div class="shayri-attr" style="margin-top:1rem;">— Ajay Goldsmith</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="bento-section" id="contact-bento">
+    <div class="bento-label">Contact</div>
+    <div class="bento-grid">
+
+      <div class="glow-card always-glow col-6 tall reveal">
+        <div class="glow-inner dark-card">
+          <div class="card-pad">
+            <div>
+              <div class="card-tag" style="color:rgba(255,255,255,.28);">Let's work together</div>
+              <div class="card-title xl" style="color:#fff;">Open to<br/><em style="color:rgba(255,255,255,.38);">internships</em><br/>&amp; collabs.</div>
+              <div class="card-body" style="color:rgba(255,255,255,.42);">Whether you have a project, want to collaborate, or just want to talk about circuits, code, or poetry — I'm here.</div>
+            </div>
+            <div style="border-top:.75px solid rgba(255,255,255,.08);margin-top:1.5rem;padding-top:.25rem;">
+              <a href="mailto:Ajay@example.com" class="contact-link-item"><span>✉ Ajay@example.com</span><span>→</span></a>
+              <a href="https://github.com" target="_blank" class="contact-link-item"><span>⌥ github.com/AjayGoldsmith</span><span>→</span></a>
+              <a href="https://linkedin.com" target="_blank" class="contact-link-item"><span>◈ linkedin.com/in/AjayGoldsmith</span><span>→</span></a>
+              <a href="https://twitter.com" target="_blank" class="contact-link-item"><span>◇ @Ajay_codes</span><span>→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-6 tall reveal rd2">
+        <div class="glow-inner">
+          <div class="card-pad">
+            <div class="card-tag">Send a message</div>
+            <div class="card-title" style="margin-bottom:1.25rem;">Say hello 👋</div>
+            <label class="form-label-s">Your Name</label>
+            <input type="text" class="form-input-s" placeholder="Rahul Sharma" />
+            <label class="form-label-s">Email</label>
+            <input type="email" class="form-input-s" placeholder="rahul@example.com" />
+            <label class="form-label-s">Message</label>
+            <textarea class="form-input-s" placeholder="I have a project idea / internship opportunity..."></textarea>
+            <button class="form-btn" id="sendBtn">Send Message →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-4 short reveal">
+        <div class="glow-inner" style="background:linear-gradient(135deg,#f0f9ff,#e0f2fe);">
+          <div class="card-pad" style="flex-direction:row;align-items:center;gap:1.25rem;">
+            <div style="font-size:2.5rem;flex-shrink:0;">📍</div>
+            <div><div class="card-tag" style="color:#0284c7;">Location</div><div class="card-title" style="font-size:.98rem;">Bilaspur, Chhattisgarh</div><div class="card-body" style="font-size:.73rem;">India · GGV Central University</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card col-4 short reveal rd1">
+        <div class="glow-inner">
+          <div class="card-pad" style="flex-direction:row;align-items:center;gap:1.25rem;">
+            <div style="font-size:2.5rem;flex-shrink:0;">🎓</div>
+            <div><div class="card-tag">Status</div><div class="card-title" style="font-size:.98rem;">B.Tech · Year 2</div><div class="card-body" style="font-size:.73rem;">ECE · GGV · 2023–2027</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-card always-glow col-4 short reveal rd2">
+        <div class="glow-inner" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);">
+          <div class="card-pad" style="flex-direction:row;align-items:center;gap:1.25rem;">
+            <div>
+              <div class="live-dot" style="margin-bottom:.5rem;"></div>
+              <div class="card-tag" style="color:#15803d;">Available Now</div>
+              <div class="card-title" style="font-size:.98rem;color:#14532d;">Open to Internships</div>
+              <div class="card-body" style="font-size:.73rem;color:#166534;">Frontend · Web Dev · ECE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Ajay <em>Goldsmith</em></div>
+    <div class="footer-copy">© 2026 · B.Tech ECE · GGV Bilaspur · Made with ♥ &amp; poetry</div>
+  </footer>
+
+  <script>
+    // Nav
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), {passive:true});
+
+    // Reveal
+    const io = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.08,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Mouse-tracked glow angle
+    document.querySelectorAll('.glow-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const angle = Math.atan2(e.clientY - r.top - r.height/2, e.clientX - r.left - r.width/2) * 180/Math.PI + 90;
+        card.style.setProperty('--glow-angle', angle + 'deg');
+      });
+    });
+
+    // Form send
+    const btn = document.getElementById('sendBtn');
+    btn.addEventListener('click', () => {
+      btn.textContent = '✓ Sent! I\'ll reply soon.';
+      btn.style.background = '#22c55e';
+      setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3000);
+    });
+  </script>
+</body>
+</html>
