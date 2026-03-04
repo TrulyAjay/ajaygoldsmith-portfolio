@@ -376,10 +376,19 @@
       .stat-num { font-size: 1.4rem; }
       .stat-label { font-size: .58rem; }
 
-      /* Stack grid */
-      .stack-grid { grid-template-columns: repeat(4,1fr); gap: .4rem; }
-      .stack-emoji { font-size: 1.05rem; }
-      .stack-name { font-size: .56rem; }
+      /* Stack grid — 6 cols on mobile, bigger items */
+      .stack-grid { grid-template-columns: repeat(6,1fr); gap: .5rem; margin-top: .85rem; }
+      .stack-item { padding: .6rem .25rem; gap: .3rem; }
+      .stack-emoji { font-size: 1.2rem; }
+      .stack-name { font-size: .6rem; }
+
+      /* Frontend + Deploy cards — sit side by side on mobile */
+      .glow-card.col-3 { grid-column: span 6; }
+      #skills-bento .bento-grid { grid-template-columns: repeat(12,1fr); }
+      #skills-bento .glow-card.col-3 { grid-column: span 6; }
+      #skills-bento .glow-card.col-6 { grid-column: span 12; }
+      #skills-bento .glow-card.col-8 { grid-column: span 12; }
+      #skills-bento .glow-card.col-4 { grid-column: span 12; }
 
       /* Skill pills */
       .skill-pill { font-size: .7rem; padding: .25rem .6rem; }
@@ -429,7 +438,7 @@
       <li><a href="#poetry-bento">Poetry</a></li>
       <li><a href="#contact-bento">Contact</a></li>
     </ul>
-    <a href="mailto:imdajayg@gmail.com" class="nav-pill">Get in Touch ↗</a>
+    <a href="/cdn-cgi/l/email-protection#f69f9b92979c978f91b6919b979f9ad895999b" class="nav-pill">Get in Touch ↗</a>
     <button class="hamburger" id="hamburger" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
@@ -442,7 +451,7 @@
     <a href="#projects-bento" class="drawer-link">Projects</a>
     <a href="#poetry-bento" class="drawer-link">Poetry</a>
     <a href="#contact-bento" class="drawer-link">Contact</a>
-    <a href="mailto:imdajayg@gmail.com" class="drawer-pill">Get in Touch ↗</a>
+    <a href="/cdn-cgi/l/email-protection#234a4e474249425a4463444e424a4f0d404c4e" class="drawer-pill">Get in Touch ↗</a>
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
@@ -854,7 +863,7 @@
                 just want to talk about circuits, code, or poetry — I'm here.</div>
             </div>
             <div style="border-top:.75px solid rgba(255,255,255,.08);margin-top:1.5rem;padding-top:.25rem;">
-              <a href="mailto:imdajayg@gmail.com" class="contact-link-item"><span>✉imdajayg@gmail.com</span><span>→</span></a>
+              <a href="/cdn-cgi/l/email-protection#8de4e0e9ece7ecf4eacdeae0ece4e1a3eee2e0" class="contact-link-item"><span>✉ <span class="__cf_email__" data-cfemail="bad3d7dedbd0dbc3ddfaddd7dbd3d694d9d5d7">[email&#160;protected]</span></span><span>→</span></a>
               <a href="https://github.com/TrulyAjay" class="contact-link-item"><span>#
                   github.com/TrulyAjay</span><span>→</span></a>
               <a href="https://www.linkedin.com/in/ajay-kumar-73b63139b" class="contact-link-item"><span>#
