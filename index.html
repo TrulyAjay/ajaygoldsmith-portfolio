@@ -818,5 +818,13 @@
       });
     });
 
-    // Form send
-    const btn = document.getElementById('se
+        // Form send
+    const btn = document.getElementById('sendBtn');
+    btn.addEventListener('click', () => {
+      btn.textContent = '✓ Sent! I\'ll reply soon.';
+      btn.style.background = '#22c55e';
+      setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3000);
+    });
+  </script>
+</body>
+</html>
