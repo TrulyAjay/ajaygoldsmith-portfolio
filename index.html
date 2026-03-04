@@ -3,6 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ajay Goldsmith — Frontend Developer, ECE Student at GGV Bilaspur, and poet. Building interfaces, deploying them, and writing shayris under open skies." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Ajay Goldsmith" />
+  <meta property="og:title" content="Ajay Goldsmith — Portfolio" />
+  <meta property="og:description" content="Frontend Developer & ECE Student at GGV Bilaspur. I build interfaces, deploy them, and write shayris." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ajaygoldsmith.me" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Ajay Goldsmith — Portfolio" />
+  <meta name="twitter:description" content="Frontend Developer & ECE Student at GGV Bilaspur." />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <title>Ajay Goldsmith — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -426,8 +439,9 @@
       nav { padding: .7rem .9rem; }
     }
   </style>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>emailjs.init("XaqpUcC2jJH9Z8XM2");</script>
+  <script>(function(){emailjs.init("XaqpUcC2jJH9Z8XM2");})();</script>
 </head>
 <body>
 
@@ -625,7 +639,7 @@
             <div style="flex:1;">
               <div class="card-tag" style="color:#6366f1;">Core ECE</div>
               <div class="card-title xl">Electronics &amp;<br/>Communication</div>
-              <div class="card-body">Signal processing, circuit design, embedded systems, analog &amp; digital electronics — applied with curiosity and connected to the web.</div>
+              <div class="card-body">Signal processing, circuit design, embedded systems, analog &amp; digital electronics — things I study in class and wire into real projects.</div>
             </div>
             <div style="font-size:5rem;opacity:.35;flex-shrink:0;">📡</div>
           </div>
@@ -639,7 +653,7 @@
             <div>
               <div class="card-tag" style="color:#d97706;">Soft Skills</div>
               <div class="card-title" style="font-size:1.2rem;">Leadership &amp; Communication</div>
-              <div class="card-body">Empathy and clarity are the best technical skills anyone can have.</div>
+              <div class="card-body">I lead with listening. The rest follows.</div>
             </div>
           </div>
         </div>
@@ -659,7 +673,7 @@
             <div>
               <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                 <div class="card-icon-chip">🖥️</div>
-                <a href="ajaygoldsmith.me" class="project-arrow-btn">↗</a>
+                <a href="https://github.com/TrulyAjay" class="project-arrow-btn" rel="noopener noreferrer" target="_blank" title="View on GitHub">↗</a>
               </div>
               <div class="card-tag" style="margin-top:1.25rem;">Project 001</div>
               <div class="card-title xl">Personal Portfolio v1</div>
@@ -780,7 +794,7 @@
             <div class="card-icon-chip" style="margin-bottom:1.25rem;">🏅</div>
             <div class="card-tag">Philosophy</div>
             <div class="card-title xl">Empathy before<br/>authority.</div>
-            <div class="card-body">Leading a team of 15+ students for the annual tech fest taught me that the best technical skill is knowing how to listen. I've organized workshops, hackathons, mentored juniors in frontend development, and hosted campus events — occasionally reciting original poetry on stage too.<br/><br/>True leadership is quiet confidence — the kind that makes others feel capable, not small.</div>
+            <div class="card-body">Leading a team of 15+ students for the annual tech fest taught me that the best technical skill is knowing how to listen. I've organized workshops, hackathons, mentored juniors in frontend development, and hosted campus events — occasionally reciting original poetry on stage too.<br/><br/>Good leadership means the team gets the credit. I keep that close.</div>
           </div>
         </div>
       </div>
@@ -868,7 +882,7 @@
               <a href="/cdn-cgi/l/email-protection#8de4e0e9ece7ecf4eacdeae0ece4e1a3eee2e0" class="contact-link-item"><span>✉ <span class="__cf_email__" data-cfemail="bad3d7dedbd0dbc3ddfaddd7dbd3d694d9d5d7">[email&#160;protected]</span></span><span>→</span></a>
               <a href="https://github.com/TrulyAjay" class="contact-link-item"><span>#
                   github.com/TrulyAjay</span><span>→</span></a>
-              <a href="https://www.linkedin.com/in/ajay-kumar-73b63139b" class="contact-link-item"><span>#
+              <a href="https://www.linkedin.com/in/ajay-kumar-73b63139b" class="contact-link-item" rel="noopener noreferrer" target="_blank"><span>#
                   linkedin.com/in/AjayKumar</span><span>→</span></a>
               <a href="https://instagram.com/imd_ajay" class="contact-link-item"><span>#
                   @imd_ajay</span><span>→</span></a>
@@ -883,11 +897,12 @@
             <div class="card-tag">Send a message</div>
             <div class="card-title" style="margin-bottom:1.25rem;">Say hello 👋</div>
             <label class="form-label-s">Your Name</label>
-            <input type="text" id="from_name" name="from_name" class="form-input-s" placeholder="Rahul Sharma" />
+            <input type="text" id="from_name" name="from_name" autocomplete="name" class="form-input-s" placeholder="Rahul Sharma" />
             <label class="form-label-s">Email</label>
-            <input type="email" id="from_email" name="from_email" class="form-input-s" placeholder="rahul@example.com" />
+            <input type="email" id="from_email" name="from_email" autocomplete="email" class="form-input-s" placeholder="rahul@example.com" />
             <label class="form-label-s">Message</label>
             <textarea id="message" name="message" class="form-input-s" placeholder="I have a project idea / internship opportunity..."></textarea>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAACmG7F0-rPsWntpX" data-theme="light" style="margin-bottom:.65rem;transform:scale(0.88);transform-origin:left;"></div>
             <button class="form-btn" id="sendBtn">Send Message →</button>
           </div>
         </div>
@@ -917,7 +932,7 @@
             <div>
               <div class="live-dot" style="margin-bottom:.5rem;"></div>
               <div class="card-tag" style="color:#15803d;">Available Now</div>
-              <div class="card-title" style="font-size:.98rem;color:#14532d;">Open to Internaships</div>
+              <div class="card-title" style="font-size:.98rem;color:#14532d;">Open to Internships</div>
               <div class="card-body" style="font-size:.73rem;color:#166534;">Frontend · Web Dev · ECE</div>
             </div>
           </div>
@@ -950,15 +965,29 @@
       });
     });
 
-    // Form send via EmailJS
+    // Form send via EmailJS + Turnstile
     const btn = document.getElementById('sendBtn');
     btn.addEventListener('click', () => {
       const from_name  = document.getElementById('from_name').value.trim();
       const from_email = document.getElementById('from_email').value.trim();
       const message    = document.getElementById('message').value.trim();
+      const emailOk    = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(from_email);
+      const token      = document.querySelector('[name="cf-turnstile-response"]');
       if (!from_name || !from_email || !message) {
         btn.textContent = 'Please fill all fields!';
         btn.style.background = '#ef4444';
+        setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 2500);
+        return;
+      }
+      if (!emailOk) {
+        btn.textContent = 'Enter a valid email!';
+        btn.style.background = '#ef4444';
+        setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 2500);
+        return;
+      }
+      if (!token || !token.value) {
+        btn.textContent = 'Complete the verification!';
+        btn.style.background = '#f59e0b';
         setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 2500);
         return;
       }
@@ -973,12 +1002,14 @@
           document.getElementById('from_name').value = '';
           document.getElementById('from_email').value = '';
           document.getElementById('message').value = '';
+          if (window.turnstile) window.turnstile.reset();
           setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3500);
         })
         .catch(() => {
           btn.textContent = 'Failed. Try again!';
           btn.style.background = '#ef4444';
           btn.disabled = false;
+          if (window.turnstile) window.turnstile.reset();
           setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3000);
         });
     });
