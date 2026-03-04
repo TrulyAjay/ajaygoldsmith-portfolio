@@ -426,6 +426,8 @@
       nav { padding: .7rem .9rem; }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init("XaqpUcC2jJH9Z8XM2");</script>
 </head>
 <body>
 
@@ -881,11 +883,11 @@
             <div class="card-tag">Send a message</div>
             <div class="card-title" style="margin-bottom:1.25rem;">Say hello 👋</div>
             <label class="form-label-s">Your Name</label>
-            <input type="text" class="form-input-s" placeholder="Rahul Sharma" />
+            <input type="text" id="from_name" name="from_name" class="form-input-s" placeholder="Rahul Sharma" />
             <label class="form-label-s">Email</label>
-            <input type="email" class="form-input-s" placeholder="rahul@example.com" />
+            <input type="email" id="from_email" name="from_email" class="form-input-s" placeholder="rahul@example.com" />
             <label class="form-label-s">Message</label>
-            <textarea class="form-input-s" placeholder="I have a project idea / internship opportunity..."></textarea>
+            <textarea id="message" name="message" class="form-input-s" placeholder="I have a project idea / internship opportunity..."></textarea>
             <button class="form-btn" id="sendBtn">Send Message →</button>
           </div>
         </div>
@@ -948,12 +950,37 @@
       });
     });
 
-    // Form send
+    // Form send via EmailJS
     const btn = document.getElementById('sendBtn');
     btn.addEventListener('click', () => {
-      btn.textContent = 'Sent! Reply coming soon.';
-      btn.style.background = '#22c55e';
-      setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3000);
+      const from_name  = document.getElementById('from_name').value.trim();
+      const from_email = document.getElementById('from_email').value.trim();
+      const message    = document.getElementById('message').value.trim();
+      if (!from_name || !from_email || !message) {
+        btn.textContent = 'Please fill all fields!';
+        btn.style.background = '#ef4444';
+        setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 2500);
+        return;
+      }
+      btn.textContent = 'Sending...';
+      btn.style.background = '#6b6b6b';
+      btn.disabled = true;
+      emailjs.send('service_ize3hdi', 'template_9m96h0r', { from_name, from_email, message })
+        .then(() => {
+          btn.textContent = 'Sent! Reply coming soon.';
+          btn.style.background = '#22c55e';
+          btn.disabled = false;
+          document.getElementById('from_name').value = '';
+          document.getElementById('from_email').value = '';
+          document.getElementById('message').value = '';
+          setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3500);
+        })
+        .catch(() => {
+          btn.textContent = 'Failed. Try again!';
+          btn.style.background = '#ef4444';
+          btn.disabled = false;
+          setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3000);
+        });
     });
 
     // Hamburger menu
