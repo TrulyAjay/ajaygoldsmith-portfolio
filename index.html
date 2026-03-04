@@ -83,12 +83,12 @@
     .nav-pill:hover { opacity: 0.75; }
 
     /* ─── HERO ─── */
-    #hero { padding: 7.5rem 2rem 3rem; max-width: 1200px; margin: 0 auto; }
+    #hero { padding: 5rem 2rem 2rem; max-width: 1200px; margin: 0 auto; }
     .hero-pill {
       display: inline-flex; align-items: center; gap: 0.5rem;
       background: var(--card); border: 0.75px solid var(--border-strong);
       border-radius: 100px; padding: 0.35rem 0.9rem;
-      font-size: 0.75rem; color: var(--muted); margin-bottom: 2.5rem;
+      font-size: 0.75rem; color: var(--muted); margin-bottom: 1.25rem;
       opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
     }
     .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: livePulse 2s infinite; }
@@ -97,10 +97,10 @@
       font-family: 'Instrument Serif', serif;
       font-size: clamp(3.2rem, 7vw, 6.8rem);
       font-weight: 400; line-height: 1.04; letter-spacing: -0.03em;
-      margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+      margin-bottom: 1rem; opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
     }
     .hero-h1 em { font-style: italic; color: var(--muted); }
-    .hero-sub { max-width: 520px; font-size: 1rem; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.7s 0.3s forwards; }
+    .hero-sub { max-width: 520px; font-size: 1rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s 0.3s forwards; }
     .hero-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s 0.4s forwards; }
     .btn-dark { display:inline-flex;align-items:center;gap:.5rem;background:var(--text);color:#fff;padding:.75rem 1.75rem;border-radius:100px;font-size:.85rem;font-weight:500;text-decoration:none;transition:opacity .2s;font-family:'DM Sans',sans-serif; }
     .btn-dark:hover { opacity: 0.8; }
@@ -206,13 +206,105 @@
     .footer-logo em { font-style:italic;color:var(--muted); }
     .footer-copy { font-size:.73rem;color:var(--subtle); }
 
-    /* Responsive */
-    @media(max-width:900px){
-      nav{padding:.9rem 1.25rem;} .nav-links{display:none;}
-      #hero{padding:5.5rem 1.25rem 2rem;} .hero-h1{font-size:2.9rem;}
-      .bento-section{padding:1.25rem 1.25rem .75rem;}
-      .col-4,.col-5,.col-6,.col-7,.col-8{grid-column:span 12;}
-      footer{flex-direction:column;gap:1rem;padding:2rem 1.25rem;}
+    /* ══ MOBILE RESPONSIVE ══ */
+    @media(max-width:768px){
+      /* Body - prevent horizontal scroll */
+      body { overflow-x: hidden; }
+
+      /* Nav */
+      nav { padding:.75rem 1.1rem; }
+      .nav-links { display:none; }
+      .nav-pill { padding:.4rem .9rem; font-size:.72rem; }
+
+      /* Hero */
+      #hero { padding:4.5rem 1.1rem 1.5rem; }
+      .hero-h1 { font-size:2.5rem; }
+      .hero-sub { font-size:.9rem; margin-bottom:1.25rem; max-width:100%; }
+      .hero-pill { margin-bottom:1rem; font-size:.7rem; }
+      .btn-dark, .btn-light { padding:.65rem 1.3rem; font-size:.8rem; }
+
+      /* Ticker - contain to viewport */
+      .ticker-wrap { overflow:hidden; width:100%; }
+      .ticker { width:max-content; }
+
+      /* Bento sections */
+      .bento-section { padding:1.25rem 1rem .75rem; }
+      .bento-grid { gap:.75rem; }
+
+      /* ALL column spans → full width */
+      .col-4,.col-5,.col-6,.col-7,.col-8,.col-12 { grid-column:span 12; }
+
+      /* Card heights */
+      .glow-card { min-height:11rem; }
+      .glow-card.tall { min-height:16rem; }
+      .glow-card.short { min-height:7rem; }
+      .card-pad { padding:1.25rem; }
+
+      /* Card title sizes */
+      .card-title { font-size:1.35rem; }
+      .card-title.xl { font-size:1.5rem; }
+
+      /* Fix all horizontal flex rows inside cards → stack vertically */
+      /* Nature card */
+      .card-pad[style*="flex-direction:row"] { flex-direction:column !important; gap:1rem !important; }
+
+      /* Short info cards at bottom of contact - keep row but tighter */
+      .glow-card.short .card-pad { flex-direction:row !important; gap:1rem !important; }
+
+      /* Featured project card - stack vertically */
+      .glow-card.col-12 .card-pad[style*="flex-direction:row"] { flex-direction:column !important; gap:1rem !important; }
+      .glow-card.col-12 .card-pad > div[style*="flex:2"],
+      .glow-card.col-12 .card-pad > div[style*="flex:1"] { flex:unset !important; width:100%; }
+
+      /* Featured poetry dark card - stack vertically */
+      .glow-card.always-glow.col-12 .card-pad { flex-direction:column !important; gap:1.25rem !important; }
+      .glow-card.always-glow.col-12 .card-pad > div[style*="flex:1"] { flex:unset !important; width:100%; border-left:none !important; padding-left:0 !important; border-top:.75px solid rgba(255,255,255,.08); padding-top:1.25rem; }
+      .glow-card.always-glow.col-12 .card-pad > div[style*="font-size:4rem"] { display:none; }
+
+      /* ECE card - stack vertically, hide decorative emoji */
+      .glow-card.col-8 .card-pad > div[style*="font-size:5rem"] { display:none; }
+
+      /* Shayri font */
+      .shayri-hi { font-size:.88rem; line-height:1.85; }
+      .shayri-en { font-size:.8rem; }
+
+      /* Stack grid stays 4-col */
+      .stack-grid { grid-template-columns:repeat(4,1fr); gap:.4rem; }
+      .stack-emoji { font-size:1rem; }
+      .stack-name { font-size:.55rem; }
+
+      /* Stats row */
+      .stats-row { gap:.5rem; }
+      .stat-chip { min-width:60px; padding:.7rem .4rem; }
+      .stat-num { font-size:1.4rem; }
+      .stat-label { font-size:.58rem; }
+
+      /* Skill pills */
+      .skill-pill { font-size:.68rem; padding:.22rem .55rem; }
+
+      /* Leadership */
+      .leader-item { padding:.55rem .65rem; }
+      .leader-name { font-size:.78rem; }
+      .leader-role { font-size:.65rem; }
+
+      /* Poem cards */
+      .poem-hi { font-size:.85rem; }
+      .poem-en { font-size:.78rem; }
+
+      /* Contact links */
+      .contact-link-item { font-size:.75rem; }
+
+      /* Footer */
+      footer { flex-direction:column; gap:.75rem; text-align:center; padding:1.75rem 1rem; }
+    }
+
+    /* Extra small phones */
+    @media(max-width:380px){
+      .hero-h1 { font-size:2.1rem; }
+      #hero { padding:4rem .9rem 1.25rem; }
+      .bento-section { padding:1rem .85rem .6rem; }
+      .card-pad { padding:1rem; }
+      .stat-num { font-size:1.2rem; }
     }
   </style>
 </head>
@@ -227,14 +319,16 @@
       <li><a href="#poetry-bento">Poetry</a></li>
       <li><a href="#contact-bento">Contact</a></li>
     </ul>
-    <a href="mailto:imdajayg@gmail.com" class="nav-pill">Get in Touch ↗</a>
+    <a href="mailto:ajaygoldsmith.ggv@gmail.com" class="nav-pill">Get in Touch ↗</a>
   </nav>
 
   <!-- HERO -->
   <section id="hero">
     <div class="hero-pill"><span class="live-dot"></span>Open to internships &amp; collaborations · 2026</div>
-    <h1 class="hero-h1">Frontend Dev.<br/>ECE Student.<br/><em>Poet at heart.</em></h1>
-    <p class="hero-sub">B.Tech in Electronics &amp; Communication Engineering at Guru Ghasidas Vishwavidyalaya, Bilaspur. I build interfaces, deploy them, lead teams — and write shayris under open skies.</p>
+    <h1 class="hero-h1">Frontend Dev.<br />ECE Student.<br /><em>Poet at heart.</em></h1>
+    <p class="hero-sub">B.Tech in Electronics &amp; Communication Engineering at Guru Ghasidas Vishwavidyalaya, Bilaspur.
+      I build interfaces, deploy them, lead teams — and write code that machines understand,
+      and shayari that hearts do.</p>
     <div class="hero-btns">
       <a href="#projects-bento" class="btn-dark">See My Work ↓</a>
       <a href="#contact-bento" class="btn-light">Say Hello →</a>
@@ -301,7 +395,7 @@
           <div class="card-pad">
             <div>
               <div class="shayri-quote">"</div>
-              <div class="shayri-hi">तुम्हारा आना तो ठीक था, पर जाना जरूरी है क्या?<br/>थोड़ा और बैठ जाओ साथ, वरना मुलाकात अधूरी है ना।<br/>और बैठा हूं कब से तुम्हारे हाथों को पकड़ कर मन में ये बात लिए,<br/>पहना दूं क्या तुम्हें, जेब में रखी जो मेरी चूड़ी है ना।।</div>
+              <div class="shayri-hi">तुम्हारा आना तो ठीक था, पर जाना जरूरी है क्या?<br/>थोड़ा और बैठ जाओ साथ, वरना मुलाकात अधूरी है ना।<br/>और बैठा हूं कब से तुम्हारे हाथों को पकड़ कर मन में ये बात लिए,<br/>पहना दूं क्या तुम्हें, जेब में रखी जो मेरी चूड़ी है ना।</div>
               <div class="shayri-en">Your coming was a blessing, but must you really go?<br/>Stay a little longer, love — this meeting feels incomplete, you know.<br/>For I've been sitting here a while, holding your hands, a secret in my heart,<br/>Shall I slip upon your wrist, the bangle I've kept close — right from the start?</div>
             </div>
             <div class="shayri-attr">— Ajay Goldsmith</div>
@@ -383,10 +477,9 @@
               <div class="skill-pill-row">
                 <span class="skill-pill">Vercel</span>
                 <span class="skill-pill">Netlify</span>
-                <span class="skill-pill">GitHub Pages</span>
                 <span class="skill-pill">CI/CD</span>
                 <span class="skill-pill">Domains</span>
-                <span class="skill-pill">Git Flow</span>
+                <span class="skill-pill">Cloudflare</span>
               </div>
             </div>
           </div>
@@ -571,8 +664,11 @@
         <div class="glow-inner">
           <div class="card-pad">
             <div class="poem-num-lg">01</div>
-            <div class="poem-hi">पत्थर भी राह बन जाते हैं,<br/>जब हौसला साथ हो।</div>
-            <div class="poem-en">Even stones become a path,<br/>when courage walks beside you.</div>
+            <div class="poem-hi">माना कि ना मिली मंजिल, पर जिंदगी भी ख़त्म तो नहीं। <br />
+              कर हिम्मत ले फैसला, बढ़ चल दूसरी ओर कहीं।</div>
+            <div class="poem-en">True, the goal eluded me — but my journey hasn't ended still.
+              <br />Summon your strength, decide anew — and march towards another hill.
+            </div>
           </div>
         </div>
       </div>
@@ -581,8 +677,10 @@
         <div class="glow-inner" style="background:linear-gradient(135deg,#fdf4ff,#ede9fe);">
           <div class="card-pad">
             <div class="poem-num-lg" style="color:#c4b5fd;">02</div>
-            <div class="poem-hi">नदी से सीखा मैंने बहना,<br/>रुकना नहीं है मेरी आदत।</div>
-            <div class="poem-en" style="color:#7c6fa0;">From the river I learned to flow —<br/>stopping was never my habit.</div>
+            <div class="poem-hi">ख्वाहिशें तो है पर ख्वाहिशों का क्या है,<br>
+              जो मिल जाओ तुम मुझे तो किसी और की जरूरत क्या है।</div>
+            <div class="poem-en" style="color:#7c6fa0;">Desires exist, but what of them — they fade like morning dew. <br>
+              If fate grants me your heart, my love — I'd need nothing but you.</div>
           </div>
         </div>
       </div>
@@ -591,8 +689,10 @@
         <div class="glow-inner">
           <div class="card-pad">
             <div class="poem-num-lg">03</div>
-            <div class="poem-hi">खामोशी में भी एक राग है,<br/>जो सुनता है वो जानता है।</div>
-            <div class="poem-en">Even in silence there is a melody —<br/>only the one who listens, knows.</div>
+            <div class="poem-hi">देखता हूं चांद को तो मुस्कुरा देता हूं, <br>
+              दूर होके भी तुम दूर थोड़ी हो ।</div>
+            <div class="poem-en">The moon appears, and I can't help but smile, <br>
+              For though you're miles away — you're with me all the while.</div>
           </div>
         </div>
       </div>
@@ -602,11 +702,11 @@
           <div class="card-pad" style="flex-direction:row;align-items:center;gap:3rem;">
             <div style="font-size:4rem;flex-shrink:0;opacity:.5;">🖊️</div>
             <div style="flex:1;">
-              <div class="card-tag" style="color:rgba(255,255,255,.28);">Original Shayri · Featured</div>
-              <div class="shayri-hi">टूटे तारों की रोशनी में, रास्ता बना लेता हूँ मैं।<br/>सर्किट हो या शब्दों का जाल, दोनों में खो जाता हूँ मैं।</div>
+              <div class="card-tag" style="color:rgba(255,255,255,.28);">Original Poetry · Featured</div>
+              <div class="shayri-hi">उनका चेहरे पर बिखरी जुल्फों को गालों से समेटकर, हल्के हाथ से कानों के पीछे खोसना.. सर्दी के सुबह चमकती ओस की बूंदें, खिलते फूल, सुनहरी धूप, सांझ के सूरज, सितारों से भरे आसमां और चमकते चाँद को आहिस्ते से याद दिलाता रहता है कि खूबसूरत कौन है।।</div>
             </div>
             <div style="flex:1;border-left:.75px solid rgba(255,255,255,.08);padding-left:3rem;">
-              <div class="shayri-en" style="font-size:.98rem;">In the glow of broken stars, I carve my own way through.<br/>Be it circuits or a web of words — I lose myself in both, it's true.</div>
+              <div class="shayri-en" style="font-size:.98rem;">Her gathering those scattered curls from her cheeks and gently tucking them behind her ears with a soft hand... keeps reminding the glistening dewdrops of cold mornings, the blooming flowers, the golden sunshine, the evening sun, the star-filled skies, and the shining moon — who the beautiful one really is.</div>
               <div class="shayri-attr" style="margin-top:1rem;">— Ajay Goldsmith</div>
             </div>
           </div>
@@ -620,20 +720,26 @@
   <section class="bento-section" id="contact-bento">
     <div class="bento-label">Contact</div>
     <div class="bento-grid">
-
       <div class="glow-card always-glow col-6 tall reveal">
         <div class="glow-inner dark-card">
           <div class="card-pad">
             <div>
               <div class="card-tag" style="color:rgba(255,255,255,.28);">Let's work together</div>
-              <div class="card-title xl" style="color:#fff;">Open to<br/><em style="color:rgba(255,255,255,.38);">internships</em><br/>&amp; collabs.</div>
-              <div class="card-body" style="color:rgba(255,255,255,.42);">Whether you have a project, want to collaborate, or just want to talk about circuits, code, or poetry — I'm here.</div>
+              <div class="card-title xl" style="color:#fff;">Open to<br /><em
+                  style="color:rgba(255,255,255,.38);">internships</em><br />&amp; collabs.</div>
+              <div class="card-body" style="color:rgba(255,255,255,.42);">Whether you have a project, want to collaborate,
+                or
+                just want to talk about circuits, code, or poetry — I'm here.</div>
             </div>
             <div style="border-top:.75px solid rgba(255,255,255,.08);margin-top:1.5rem;padding-top:.25rem;">
-              <a href="mailto:Ajay@example.com" class="contact-link-item"><span>✉ Ajay@example.com</span><span>→</span></a>
-              <a href="https://github.com" target="_blank" class="contact-link-item"><span>⌥ github.com/AjayGoldsmith</span><span>→</span></a>
-              <a href="https://linkedin.com" target="_blank" class="contact-link-item"><span>◈ linkedin.com/in/AjayGoldsmith</span><span>→</span></a>
-              <a href="https://twitter.com" target="_blank" class="contact-link-item"><span>◇ @Ajay_codes</span><span>→</span></a>
+              <a href="mailto:ajaygoldsmith.ggv@gmail.com" class="contact-link-item"><span>✉
+                  ajaygoldsmith.ggv@gmail.com</span><span>→</span></a>
+              <a href="https://github.com/TrulyAjay" class="contact-link-item"><span>#
+                  github.com/TrulyAjay</span><span>→</span></a>
+              <a href="https://www.linkedin.com/in/ajay-kumar-73b63139b" class="contact-link-item"><span>#
+                  linkedin.com/in/AjayKumar</span><span>→</span></a>
+              <a href="https://instagram.com/imd_ajay" class="contact-link-item"><span>#
+                  @imd_ajay</span><span>→</span></a>
             </div>
           </div>
         </div>
@@ -668,7 +774,7 @@
         <div class="glow-inner">
           <div class="card-pad" style="flex-direction:row;align-items:center;gap:1.25rem;">
             <div style="font-size:2.5rem;flex-shrink:0;">🎓</div>
-            <div><div class="card-tag">Status</div><div class="card-title" style="font-size:.98rem;">B.Tech · Year 2</div><div class="card-body" style="font-size:.73rem;">ECE · GGV · 2023–2027</div></div>
+            <div><div class="card-tag">Status</div><div class="card-title" style="font-size:.98rem;">B.Tech · Year 1</div><div class="card-body" style="font-size:.73rem;">ECE · GGV · 2025–2029</div></div>
           </div>
         </div>
       </div>
@@ -691,7 +797,7 @@
 
   <footer>
     <div class="footer-logo">Ajay <em>Goldsmith</em></div>
-    <div class="footer-copy">© 2026 · B.Tech ECE · GGV Bilaspur · Made with ♥ &amp; poetry</div>
+    <div class="footer-copy">© 2026 · Made with ♥ &amp; poetry</div>
   </footer>
 
   <script>
@@ -713,12 +819,4 @@
     });
 
     // Form send
-    const btn = document.getElementById('sendBtn');
-    btn.addEventListener('click', () => {
-      btn.textContent = '✓ Sent! I\'ll reply soon.';
-      btn.style.background = '#22c55e';
-      setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3000);
-    });
-  </script>
-</body>
-</html>
+    const btn = document.getElementById('se
