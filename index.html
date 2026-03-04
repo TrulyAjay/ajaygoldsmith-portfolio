@@ -207,52 +207,195 @@
     .footer-logo em { font-style:italic;color:var(--muted); }
     .footer-copy { font-size:.73rem;color:var(--subtle); }
 
-    /* Responsive — mobile only, desktop untouched */
-    @media(max-width:768px){
-      nav{padding:.8rem 1.1rem;}
-      .nav-links{display:none;}
-      .nav-pill{padding:.4rem .85rem;font-size:.72rem;white-space:nowrap;}
-      #hero{padding:5rem 1.1rem 1.75rem;}
-      .hero-h1{font-size:2.6rem;}
-      .hero-sub{font-size:.92rem;max-width:100%;}
-      .hero-pill{font-size:.7rem;}
-      .btn-dark,.btn-light{padding:.65rem 1.3rem;font-size:.8rem;}
-      .ticker-wrap{overflow:hidden;width:100%;}
-      .ticker{width:max-content;}
-      .bento-section{padding:1.25rem 1rem .75rem;}
-      .bento-grid{gap:.75rem;}
-      .col-4,.col-5,.col-6,.col-7,.col-8,.col-12{grid-column:span 12;}
-      .glow-card{min-height:auto;}
-      .glow-card.tall{min-height:auto;}
-      .glow-card.short{min-height:auto;}
-      .card-pad{padding:1.25rem;}
-      .card-title{font-size:1.4rem;}
-      .card-title.xl{font-size:1.5rem;}
-      .shayri-hi{font-size:.88rem;line-height:1.85;}
-      .shayri-en{font-size:.8rem;}
-      .stat-chip{padding:.7rem .4rem;}
-      .stat-num{font-size:1.4rem;}
-      .stat-label{font-size:.58rem;}
-      .stack-name{font-size:.55rem;}
-      footer{flex-direction:column;gap:.75rem;text-align:center;padding:1.75rem 1rem;}
-      .glow-card.col-7 .card-pad[style*="flex-direction:row"]{flex-direction:column!important;gap:1rem!important;}
-      .glow-card.col-8 .card-pad[style*="flex-direction:row"]{flex-direction:column!important;gap:1rem!important;}
-      .glow-card.col-8 .card-pad>div[style*="font-size:5rem"]{display:none;}
-      .glow-card.col-12 .card-pad[style*="flex-direction:row"]{flex-direction:column!important;gap:1rem!important;}
-      .glow-card.col-12 .card-pad>div[style*="flex:2"],.glow-card.col-12 .card-pad>div[style*="flex:1"]{flex:unset!important;width:100%;}
-      .glow-card.always-glow.col-12 .card-pad[style*="flex-direction:row"]{flex-direction:column!important;gap:1.25rem!important;}
-      .glow-card.always-glow.col-12 .card-pad>div[style*="font-size:4rem"]{display:none;}
-      .glow-card.always-glow.col-12 .card-pad>div[style*="border-left"]{border-left:none!important;padding-left:0!important;border-top:.75px solid rgba(255,255,255,.1);padding-top:1.25rem;flex:unset!important;width:100%;}
-      .glow-card.always-glow.col-12 .card-pad>div[style*="flex:1"]{flex:unset!important;width:100%;}
-      .glow-card.short .card-pad[style*="flex-direction:row"]{gap:.85rem!important;}
+    /* ── Hamburger & Mobile Drawer ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 200;
     }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(245,242,237,0.97);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 150;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.75rem;
+    }
+    .mobile-drawer.open { display: flex; }
+    .drawer-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: .5rem;
+    }
+    .drawer-link {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.2rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .drawer-link:hover { color: var(--muted); }
+    .drawer-pill {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      background: var(--text);
+      color: #fff;
+      padding: .7rem 1.75rem;
+      border-radius: 100px;
+      text-decoration: none;
+      margin-top: .5rem;
+    }
+
+    /* ── Mobile: max 768px ── */
+    @media(max-width:768px){
+
+      /* Nav */
+      nav { padding: .75rem 1.15rem; }
+      .nav-links { display: none; }
+      .nav-pill { display: none; }
+      .hamburger { display: flex; }
+
+      /* Hero */
+      #hero { padding: 5.5rem 1.15rem 2rem; }
+      .hero-h1 { font-size: 2.5rem; line-height: 1.08; }
+      .hero-sub { font-size: .9rem; max-width: 100%; line-height: 1.65; margin-bottom: 1.75rem; }
+      .hero-pill { font-size: .7rem; margin-bottom: 1.25rem; }
+      .hero-btns { gap: .6rem; }
+      .btn-dark, .btn-light { padding: .65rem 1.35rem; font-size: .82rem; }
+
+      /* Ticker */
+      .ticker-wrap { overflow: hidden; width: 100%; }
+      .ticker { width: max-content; }
+      .ticker-item { font-size: .7rem; gap: .6rem; }
+
+      /* Bento layout */
+      .bento-section { padding: 1.5rem 1rem .75rem; }
+      .bento-grid { gap: .75rem; }
+      .col-4,.col-5,.col-6,.col-7,.col-8,.col-12 { grid-column: span 12; }
+
+      /* Cards */
+      .glow-card { min-height: auto; }
+      .glow-card.tall { min-height: auto; }
+      .glow-card.short { min-height: auto; }
+      .card-pad { padding: 1.25rem; }
+      .card-title { font-size: 1.35rem; }
+      .card-title.xl { font-size: 1.45rem; }
+      .card-body { font-size: .83rem; }
+
+      /* Nature card — stack emoji above text */
+      #nature-card .card-pad {
+        flex-direction: column !important;
+        gap: .75rem !important;
+        align-items: flex-start !important;
+      }
+      #nature-card .card-pad > div:first-child { font-size: 3rem !important; }
+
+      /* ECE card — stack, hide decorative emoji */
+      #ece-card .card-pad {
+        flex-direction: column !important;
+        gap: .75rem !important;
+      }
+      #ece-card .card-pad > div[style*="font-size:5rem"] { display: none; }
+      #ece-card .card-pad > div[style*="flex:1"] { flex: unset !important; width: 100%; }
+
+      /* Featured project — stack two columns */
+      #featured-project .card-pad {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        align-items: flex-start !important;
+      }
+      #featured-project .card-pad > div { flex: unset !important; width: 100%; }
+
+      /* Featured poetry — stack, remove divider, hide pen emoji */
+      #featured-poem .card-pad {
+        flex-direction: column !important;
+        gap: 1.25rem !important;
+        align-items: flex-start !important;
+      }
+      #featured-poem .card-pad > div[style*="font-size:4rem"] { display: none; }
+      #featured-poem .card-pad > div[style*="flex:1"] { flex: unset !important; width: 100%; }
+      #featured-poem .card-pad > div[style*="border-left"] {
+        border-left: none !important;
+        padding-left: 0 !important;
+        border-top: .75px solid rgba(255,255,255,.1);
+        padding-top: 1.25rem;
+        flex: unset !important;
+        width: 100%;
+      }
+
+      /* Short contact cards — keep row, tighten */
+      .glow-card.short .card-pad { gap: .85rem !important; }
+
+      /* Stats */
+      .stats-row { gap: .5rem; }
+      .stat-chip { padding: .75rem .4rem; }
+      .stat-num { font-size: 1.4rem; }
+      .stat-label { font-size: .58rem; }
+
+      /* Stack grid */
+      .stack-grid { grid-template-columns: repeat(4,1fr); gap: .4rem; }
+      .stack-emoji { font-size: 1.05rem; }
+      .stack-name { font-size: .56rem; }
+
+      /* Skill pills */
+      .skill-pill { font-size: .7rem; padding: .25rem .6rem; }
+
+      /* Shayri */
+      .shayri-hi { font-size: .88rem; line-height: 1.85; }
+      .shayri-en { font-size: .8rem; }
+      .shayri-quote { font-size: 3.5rem; }
+
+      /* Poems */
+      .poem-hi { font-size: .88rem; line-height: 1.9; }
+      .poem-en { font-size: .8rem; }
+
+      /* Leadership */
+      .leader-item { padding: .6rem .75rem; }
+      .leader-name { font-size: .8rem; }
+      .leader-role { font-size: .65rem; }
+
+      /* Contact links */
+      .contact-link-item { font-size: .78rem; padding: .65rem 0; }
+
+      /* Form */
+      .form-input-s { font-size: .8rem; }
+
+      /* Footer */
+      footer { flex-direction: column; gap: .75rem; text-align: center; padding: 1.75rem 1rem; }
+    }
+
+    /* ── Extra small phones ── */
     @media(max-width:380px){
-      #hero{padding:4.5rem .9rem 1.5rem;}
-      .hero-h1{font-size:2.1rem;}
-      .bento-section{padding:1rem .85rem .6rem;}
-      .card-pad{padding:1rem;}
-      nav{padding:.7rem .9rem;}
-      .nav-pill{font-size:.65rem;padding:.3rem .65rem;}
+      #hero { padding: 5rem .9rem 1.5rem; }
+      .hero-h1 { font-size: 2.1rem; }
+      .bento-section { padding: 1.25rem .85rem .6rem; }
+      .card-pad { padding: 1rem; }
+      nav { padding: .7rem .9rem; }
     }
   </style>
 </head>
@@ -268,7 +411,20 @@
       <li><a href="#contact-bento">Contact</a></li>
     </ul>
     <a href="mailto:imdajayg@gmail.com" class="nav-pill">Get in Touch ↗</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <div class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+    <a href="#about-bento" class="drawer-link">About</a>
+    <a href="#skills-bento" class="drawer-link">Skills</a>
+    <a href="#projects-bento" class="drawer-link">Projects</a>
+    <a href="#poetry-bento" class="drawer-link">Poetry</a>
+    <a href="#contact-bento" class="drawer-link">Contact</a>
+    <a href="mailto:imdajayg@gmail.com" class="drawer-pill">Get in Touch ↗</a>
+  </div>
 
   <!-- HERO -->
   <section id="hero">
@@ -349,7 +505,7 @@
         </div>
       </div>
 
-      <div class="glow-card col-7 reveal rd3">
+      <div class="glow-card col-7 reveal rd3" id="nature-card">
         <div class="glow-inner" style="background:linear-gradient(150deg,#e8f5e9,#f1f8e9,#f9fbe7);">
           <div class="card-pad" style="flex-direction:row;align-items:center;gap:1.5rem;">
             <div style="font-size:4.5rem;flex-shrink:0;opacity:.55;">🌿</div>
@@ -432,7 +588,7 @@
         </div>
       </div>
 
-      <div class="glow-card col-8 reveal rd3">
+      <div class="glow-card col-8 reveal rd3" id="ece-card">
         <div class="glow-inner" style="background:linear-gradient(120deg,#f0f4ff,#f8f5ff);">
           <div class="card-pad" style="flex-direction:row;align-items:center;gap:2rem;">
             <div style="flex:1;">
@@ -501,7 +657,7 @@
         </div>
       </div>
 
-      <div class="glow-card col-12 reveal rd2" style="cursor:pointer;min-height:11rem;">
+      <div class="glow-card col-12 reveal rd2" id="featured-project" style="cursor:pointer;min-height:11rem;">
         <div class="glow-inner" style="background:linear-gradient(120deg,#f0fdf4,#ecfdf5);">
           <div class="card-pad" style="flex-direction:row;align-items:center;gap:3rem;">
             <div style="flex:2;">
@@ -643,7 +799,7 @@
         </div>
       </div>
 
-      <div class="glow-card always-glow col-12 reveal rd3" style="min-height:10rem;">
+      <div class="glow-card always-glow col-12 reveal rd3" id="featured-poem" style="min-height:10rem;">
         <div class="glow-inner dark-card">
           <div class="card-pad" style="flex-direction:row;align-items:center;gap:3rem;">
             <div style="font-size:4rem;flex-shrink:0;opacity:.5;">🖊️</div>
@@ -766,10 +922,25 @@
     // Form send
     const btn = document.getElementById('sendBtn');
     btn.addEventListener('click', () => {
-      btn.textContent = '\u2713 Sent! I\'ll reply soon.';
+      btn.textContent = 'Sent! Reply coming soon.';
       btn.style.background = '#22c55e';
       setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3000);
     });
+
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const drawer = document.getElementById('mobileDrawer');
+    const drawerClose = document.getElementById('drawerClose');
+    hamburger.addEventListener('click', () => {
+      drawer.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    drawerClose.addEventListener('click', closeDrawer);
+    drawer.querySelectorAll('.drawer-link, .drawer-pill').forEach(l => l.addEventListener('click', closeDrawer));
   </script>
 </body>
 </html>
